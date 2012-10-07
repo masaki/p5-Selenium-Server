@@ -4,7 +4,11 @@ name 'Selenium-Server';
 license 'perl';
 all_from 'lib/Selenium/Server.pm';
 
-# requires '';
+requires 'LWP::UserAgent';
+requires 'Test::TCP';
+requires 'File::Slurp';
+requires 'File::Spec';
+requires 'File::Temp';
 
 tests 't/*.t';
 test_requires 'Test::More' => 0.98;
