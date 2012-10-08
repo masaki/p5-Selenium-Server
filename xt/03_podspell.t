@@ -22,3 +22,5 @@ __DATA__
 NAKAGAWA Masaki
 masaki@cpan.org
 Selenium::Server
+RemoteWebDriver
+standalone
