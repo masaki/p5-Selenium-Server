@@ -10,7 +10,7 @@ use File::Slurp qw(write_file);
 use File::Temp;
 use File::Spec;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 $VERSION = eval $VERSION;
 
 my $ua = LWP::UserAgent->new;
