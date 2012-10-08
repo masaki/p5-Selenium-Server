@@ -52,7 +52,13 @@ sub new {
         $path;
     };
 
-    return bless { jar => $jar }, $class;
+    my $self = bless { jar => $jar }, $class;
+
+    if ($args{auto_start}) {
+        $self->start;
+    }
+
+    return $self;
 }
 
 sub jar {
