@@ -15,19 +15,24 @@ $VERSION = eval $VERSION;
 
 my $ua = LWP::UserAgent->new;
 
+our $LATEST_VERSION;
 sub latest_version {
     my $class = shift;
 
-    my $body = $ua->get('http://code.google.com/p/selenium/downloads/list')->content;
-    my ($version) = $body =~ /selenium-server-standalone-(\d+.\d+.\d+).jar/i;
-    $version;
+    unless ($LATEST_VERSION) {
+        my $body = $ua->get('http://code.google.com/p/selenium/downloads/list')->content;
+        my ($version) = $body =~ /selenium-server-standalone-(\d+.\d+.\d+).jar/i;
+        $LATEST_VERSION = $version;
+    }
+
+    $LATEST_VERSION;
 }
 
 sub download {
     my ($class, $version, $path) = @_;
 
-    my $name = sprintf 'selenium-server-standalone-%s.jar' => $version;
-    my $url  = sprintf 'http://selenium.googlecode.com/files/%s' => $name;
+    my $name = "selenium-server-standalone-${version}.jar";
+    my $url  = "http://selenium.googlecode.com/files/${name}";
 
     my $res = $ua->get($url);
     write_file($path, { binmode => ':raw' }, $res->content);
@@ -40,7 +45,7 @@ sub new {
         my $version = exists $args{version} ? $args{version} : $class->latest_version;
 
         my $dir  = File::Spec->tmpdir;
-        my $name = "selenium-server-standalone-$version.jar";
+        my $name = "selenium-server-standalone-${version}.jar";
         my $path = File::Spec->catfile($dir, $name);
 
         $class->download($version, $path) unless -e $path;
@@ -52,7 +57,7 @@ sub new {
 
 sub jar {
     my $self = shift;
-    return ref $self->{jar} ? $self->{jar}->filename : $self->{jar};
+    return $self->{jar} || '';
 }
 
 sub host {
@@ -90,8 +95,10 @@ sub stop {
 
     if ($self->{server}) {
         my ($host, $port) = ($self->host, $self->port);
-        my $url = "http://$host:$port/selenium-server/driver/?cmd=shutDownSeleniumServer";
+        my $url = "http://${host}:${port}/selenium-server/driver/?cmd=shutDownSeleniumServer";
         $ua->get($url);
+
+        delete $self->{server};
     }
 }
 
