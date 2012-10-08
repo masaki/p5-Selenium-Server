@@ -138,6 +138,44 @@ Selenium::Server - A wrapper of selenium-server-standalone.jar
 Selenium::Server is a wrapper of Selenium RemoteWebDriver Server;
 selenium-server-standalone-{version}.jar file.
 
+=head1 METHODS
+
+=over 4
+
+=item * new()
+
+Creates a selenium-server wrapper instance.
+
+=item * start($args)
+
+Starts selenium-server, with $args if specified.
+
+=item * stop()
+
+Stops selenium-server.
+
+=item * host()
+
+Returns selenium-server host. (127.0.0.1)
+
+=item * port()
+
+Returns selenium-server port.
+
+=item * jar()
+
+Returns selenium-server JAR file path.
+
+=item * latest_version()
+
+Returns selenium-server latest version string.
+
+=item * download($version, $path)
+
+Downloads selenium-server jar file specified by $version to $path.
+
+=back
+
 =head1 AUTHOR
 
 NAKAGAWA Masaki E<lt>masaki@cpan.orgE<gt>
